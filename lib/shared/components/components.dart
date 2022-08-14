@@ -49,40 +49,45 @@ Widget default_Form({
       border: OutlineInputBorder(),
     ),
   ),);
-Widget BUILDITEMTASKS(Map model,context)=>Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: Column(
-    children: [
-      Row(
-        children: [
-          CircleAvatar(
-            radius: 40.0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(model['date'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
+Widget BUILDITEMTASKS(Map model,context)=>Dismissible(
+  key: Key('dismiss'),
+  child:   Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: Column(
+      children: [
+        Row(
+          children: [
+            CircleAvatar(
+              radius: 40.0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(model['date'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
+              ),
             ),
-          ),
-          SizedBox(width: 20.0,),
-          Column(children: [
-            Text(model['title'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20.0),),
-            Text(model['time'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
+            SizedBox(width: 20.0,),
+            Column(children: [
+              Text(model['title'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20.0),),
+              Text(model['time'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
 
-          ],),
-          SizedBox(width: 10.0,),
-          IconButton(onPressed: (){
-            AppCubit.get(context).updatedatabase(status: 'done', id: model['id']);
-          },
-            icon:Icon(Icons.check_box),
-            color: Colors.green,),
-          SizedBox(width: 10,),
-          IconButton(onPressed: (){
-            AppCubit.get(context).updatedatabase(status: 'archive', id: model['id']);
-
-          },
-            icon:Icon(Icons.archive),
-            color: Colors.grey,),
-        ],
-      ),
-    ],
+            ],),
+            SizedBox(width: 10.0,),
+            IconButton(onPressed: (){
+              AppCubit.get(context).updatedatabase(status: 'done', id: model['id']);
+            },
+              icon:Icon(Icons.check_box),
+              color: Colors.green,),
+            SizedBox(width: 10,),
+            IconButton(onPressed: (){
+              AppCubit.get(context).updatedatabase(status: 'archive', id: model['id']);
+            },
+              icon:Icon(Icons.archive),
+              color: Colors.grey,),
+          ],
+        ),
+      ],
+    ),
   ),
+  onDismissed: (direction){
+    AppCubit.get(context).deletedatabase(id: model['id']);
+  },
 );
